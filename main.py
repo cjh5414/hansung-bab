@@ -9,4 +9,7 @@ http = urllib3.PoolManager()
 response = http.request('GET', URL)
 soup = BeautifulSoup(response.data, 'html.parser')
 table = soup.findAll('table')[0]
-print(table)
+td_list = table.findAll('td')
+
+for i in range(12):
+    print(td_list[i].text)
