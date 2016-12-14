@@ -11,5 +11,19 @@ soup = BeautifulSoup(response.data, 'html.parser')
 table = soup.findAll('table')[0]
 td_list = table.findAll('td')
 
-for i in range(12):
-    print(td_list[i].text)
+lunch_menu_list = []
+dinner_menu_list = []
+
+for i in range(5):
+    lunch_menu_list.append(td_list[i].get_text(' ').split())
+    dinner_menu_list.append(td_list[i+7].get_text(' ').split())
+
+for i in range(5):
+    print(str(i))
+    for menu in lunch_menu_list[i]:
+        print(menu)
+
+    print()
+
+    for menu in  dinner_menu_list[i]:
+        print(menu)
