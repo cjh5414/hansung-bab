@@ -26,8 +26,11 @@ def get_menu_divided_by_days_of_the_week():
 
 def get_todays_menu():
     today_index = datetime.today().weekday()
+    print('중식')
     for menu in lunch_menu_list[today_index]:
         print(menu)
+    
+    print('\n석식')
     for menu in dinner_menu_list[today_index]:
         print(menu)
 
