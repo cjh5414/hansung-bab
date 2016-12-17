@@ -33,10 +33,10 @@ def get_today_menu():
     today_menu = ''
     today_index = datetime.today().weekday()
     try:
-        today_menu += '\n중식\n'
+        today_menu += '\n-----중식-----\n'
         for menu in lunch_menu_list[today_index]:
             today_menu += menu + '\n'
-        today_menu += '\n석식\n'
+        today_menu += '\n-----석식-----\n'
         for menu in dinner_menu_list[today_index]:
             today_menu += menu + '\n'
         return today_menu
