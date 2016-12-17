@@ -47,14 +47,18 @@ def get_today_menu():
         # sys.exit()
 
 def notify_to_line(today_menu):
-    http = urllib3.PoolManager()
-    response = http.request(
-        'POST',
-        LINE_NOTIFY_URL,
-        headers=LINE_HEADERS,
-        fields={'message': today_menu}
-    )
-    print(response.status)
+    try:
+        http = urllib3.PoolManager()
+        response = http.request(
+            'POST',
+            LINE_NOTIFY_URL,
+            headers=LINE_HEADERS,
+            fields={'message': today_menu}
+        )
+        print('Response HTTP Status Code: {status_code}'.format(
+        status_code=response.status))
+    except urllib3.exceptions.NewConnectionError:
+        print('Connection failed.')
 
 if __name__ == '__main__':
     get_menu_divided_by_days_of_the_week()
