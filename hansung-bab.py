@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 
 import urllib3
@@ -6,7 +7,11 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings()
 
-URL = 'https://www.hansung.ac.kr/web/www/life_03_01_t2'
+HANSUNG_MENU_URL = 'https://www.hansung.ac.kr/web/www/life_03_01_t2'
+LINE_NOTIFY_URL = 'https://notify-api.line.me/api/notify'
+LINE_HEADERS = {
+    'Authorization' : 'Bearer ' + 'Bowy7xq0o6YCz3duv76a6dmlICDQwv728MrmMnUMKsK'
+}
 
 lunch_menu_list = []
 dinner_menu_list = []
@@ -14,7 +19,7 @@ dinner_menu_list = []
 
 def get_menu_divided_by_days_of_the_week():
     http = urllib3.PoolManager()
-    response = http.request('GET', URL)
+    response = http.request('GET', HANSUNG_MENU_URL)
     soup = BeautifulSoup(response.data, 'html.parser')
     table = soup.findAll('table')[0]
     td_list = table.findAll('td')
@@ -24,19 +29,34 @@ def get_menu_divided_by_days_of_the_week():
         dinner_menu_list.append(td_list[i+7].get_text(' ').split())
 
 
-def get_todays_menu():
+def get_today_menu():
+    today_menu = ''
     today_index = datetime.today().weekday()
     try:
-        print('중식')
+        today_menu += '중식\n'
         for menu in lunch_menu_list[today_index]:
-            print(menu)
-    
-        print('\n석식')
+            today_menu += menu + '\n'
+        today_menu += '\n석식\n'
         for menu in dinner_menu_list[today_index]:
-            print(menu)
+            today_menu += menu + '\n'
+        return today_menu
     except IndexError:
-        print('Today is the weekend.')
+        return 'Today is the weekend.'
+        
+        # print('Today is the weekend.')
+        # sys.exit()
+
+def notify_to_line(today_menu):
+    http = urllib3.PoolManager()
+    response = http.request(
+        'POST',
+        LINE_NOTIFY_URL,
+        headers=LINE_HEADERS,
+        fields={'message': today_menu}
+    )
+    print(response.status)
 
 if __name__ == '__main__':
     get_menu_divided_by_days_of_the_week()
-    get_todays_menu()
+    today_menu = get_today_menu()
+    notify_to_line(today_menu)
