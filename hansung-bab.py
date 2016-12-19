@@ -3,9 +3,11 @@ from datetime import datetime
 
 import urllib3
 from bs4 import BeautifulSoup
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 
 urllib3.disable_warnings()
+sched = BlockingScheduler()
 
 HANSUNG_MENU_URL = 'https://www.hansung.ac.kr/web/www/life_03_01_t2'
 LINE_NOTIFY_URL = 'https://notify-api.line.me/api/notify'
@@ -61,7 +63,13 @@ def notify_to_line(today_menu):
     except urllib3.exceptions.NewConnectionError:
         print('Connection failed.')
 
-if __name__ == '__main__':
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=16)
+def main():
     get_menu_divided_by_days_of_the_week()
     today_menu = get_today_menu()
     notify_to_line(today_menu)
+
+sched.start()
+
+# if __name__ == '__main__':
+#    main()
