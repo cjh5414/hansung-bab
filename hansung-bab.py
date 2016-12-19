@@ -66,14 +66,13 @@ def notify_to_line(today_menu):
     except urllib3.exceptions.NewConnectionError:
         print('Connection failed.')
 
-# @sched.scheduled_job('cron', day_of_week='mon-fri', hour=16)
-@sched.scheduled_job('interval', minutes=3)
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
 def main():
     get_menu_divided_by_days_of_the_week()
     today_menu = get_today_menu()
     notify_to_line(today_menu)
 
-#sched.start()
+sched.start()
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
