@@ -36,6 +36,9 @@ def get_today_menu():
         today_menu += '\n-----중식-----\n'
         for menu in lunch_menu_list[today_index]:
             today_menu += menu + '\n'
+        if len(dinner_menu_list[today_index]) < 1:
+            return today_menu
+
         today_menu += '\n-----석식-----\n'
         for menu in dinner_menu_list[today_index]:
             today_menu += menu + '\n'
