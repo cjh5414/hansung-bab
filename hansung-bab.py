@@ -41,10 +41,8 @@ def get_today_menu():
             today_menu += menu + '\n'
         return today_menu
     except IndexError:
-        return 'Today is the weekend.'
-        
-        # print('Today is the weekend.')
-        # sys.exit()
+        print('Today is the weekend. There is no menu.')
+        sys.exit()
 
 def notify_to_line(today_menu):
     try:
