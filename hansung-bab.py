@@ -1,5 +1,7 @@
 import sys
+import pytz
 from datetime import datetime
+
 
 import urllib3
 from bs4 import BeautifulSoup
@@ -7,8 +9,9 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 
 urllib3.disable_warnings()
-sched = BlockingScheduler()
 
+SEOUL_TZ = pytz.timezone('Asia/Seoul')
+sched = BlockingScheduler()
 HANSUNG_MENU_URL = 'https://www.hansung.ac.kr/web/www/life_03_01_t2'
 LINE_NOTIFY_URL = 'https://notify-api.line.me/api/notify'
 LINE_HEADERS = {
@@ -33,7 +36,7 @@ def get_menu_divided_by_days_of_the_week():
 
 def get_today_menu():
     today_menu = ''
-    today_index = datetime.today().weekday()
+    today_index = datetime.now(SEOUL_TZ).weekday()
     try:
         today_menu += '\n-----중식-----\n'
         for menu in lunch_menu_list[today_index]:
@@ -70,7 +73,7 @@ def main():
     today_menu = get_today_menu()
     notify_to_line(today_menu)
 
-sched.start()
+#sched.start()
 
-# if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()
