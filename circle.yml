@@ -4,4 +4,4 @@ test:
 
 dependencies:
     pre:
-       -  pip install pytest
+       -  pip install -r requirements.txt
