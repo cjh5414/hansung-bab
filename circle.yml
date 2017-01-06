@@ -5,3 +5,9 @@ test:
 dependencies:
     pre:
        -  pip install -r requirements.txt
+
+deployment:
+    production:
+        branch: master
+        heroku:
+            appname: hansung-bab
