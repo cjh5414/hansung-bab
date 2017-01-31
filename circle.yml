@@ -1,6 +1,6 @@
 test:
     override:
-        - pytest --cov=./test_sample.py
+        - pytest --cov=./ ./test_sample.py
     post:
         - codecov
 
