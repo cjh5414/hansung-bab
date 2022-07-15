@@ -1,6 +1,6 @@
 APScheduler==3.3.0
 beautifulsoup4==4.5.1
-codecov==2.0.5
+codecov==2.0.16
 coverage==4.3.4
 py==1.4.32
 pytest==3.0.5
